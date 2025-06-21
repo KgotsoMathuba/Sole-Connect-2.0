@@ -40,6 +40,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
+            position: relative;
         }
 
         .logo {
@@ -83,6 +84,15 @@
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
         }
 
         .hero {
@@ -224,7 +234,7 @@
         }
 
         .pricing-image {
-            height: 100%;
+            height: 200px;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             display: flex;
             align-items: center;
@@ -233,10 +243,15 @@
             font-size: 1.2rem;
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
-            .pricing-image img{
-                width: 100%;
-            }
+
+        .pricing-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .pricing-content {
             padding: 1.5rem;
         }
@@ -309,7 +324,7 @@
             background: rgba(255, 255, 255, 0.8);
         }
 
-        .contact-icon {
+        .contact-icon, .social-icon {
             width: 50px;
             height: 50px;
             background: linear-gradient(45deg, #667eea, #764ba2);
@@ -320,6 +335,18 @@
             justify-content: center;
             color: white;
             font-size: 1.2rem;
+        }
+
+        .social-icon img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .social-icon a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
         }
 
         footer {
@@ -343,8 +370,40 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.5rem 0;
+                text-align: center;
             }
             
             .hero h1 {
@@ -353,10 +412,35 @@
             
             .hero p {
                 font-size: 1.1rem;
+                padding: 0 1rem;
             }
-            
-            .container {
-                padding: 0 15px;
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+                margin: 1rem 0;
+            }
+
+            .services, .pricing, .contact {
+                padding: 2rem 0;
+                margin: 1rem 0;
             }
         }
     </style>
@@ -365,11 +449,12 @@
     <header>
         <nav class="container">
             <div class="logo">Sole Connect</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#services" onclick="closeMenu()">Services</a></li>
+                <li><a href="#pricing" onclick="closeMenu()">Pricing</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -422,14 +507,14 @@
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <div class="pricing-image">
-                       <img src="images/battery.jpg" alt="">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">🔋</div>
                     </div>
                     <div class="pricing-content">
-                        <div class="pricing-title">Apple Screen Replacement Repairs</div>
+                        <div class="pricing-title">Screen Replacement Repairs</div>
                         <div class="pricing-price">$39-79</div>
-                        <div class="pricing-description">Quick Screen replacements for iPhones </div>
+                        <div class="pricing-description">Quick Screen replacements for iPhones</div>
                         <ul class="pricing-features">
-                            <li>Fast Turnover(20-30 minutes)</li>
+                            <li>Fast Turnover (20-30 minutes)</li>
                             <li>30-day warranty</li>
                         </ul>
                     </div>
@@ -437,28 +522,32 @@
 
                 <div class="pricing-card">
                     <div class="pricing-image">
-                        <img src="images/screen.jpg" alt="">
+                        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">📱</div>
                     </div>
                     <div class="pricing-content">
-                        <div class="pricing-title">Apple Backglass Repairs</div>
+                        <div class="pricing-title">Backglass Repairs</div>
                         <div class="pricing-price">$89-149</div>
-                        <div class="pricing-description">Complete repairs for iphone Backglass</div>
-                       
+                        <div class="pricing-description">Complete repairs for iPhone Backglass</div>
+                        <ul class="pricing-features">
+                            <li>Professional repair</li>
+                            <li>Quality guarantee</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="pricing-card">
                     <div class="pricing-image">
-                       <img src="images/backglass.jpg" alt="">
+                        <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">🔧</div>
                     </div>
                     <div class="pricing-content">
-                        <div class="pricing-title">Apple Battery replacements</div>
-                        <div class="pricing-price">$159-249</div>
-                        <div class="pricing-description">iphone Battery replacements</div>
+                        <div class="pricing-title">Battery Replacements</div>
+                        <div class="pricing-price">$59-99</div>
+                        <div class="pricing-description">iPhone Battery replacements</div>
+                        <ul class="pricing-features">
+                            <li>High-quality batteries</li>
+                            <li>Extended battery life</li>
+                        </ul>
                     </div>
-                </div>
-
-            
                 </div>
             </div>
         </section>
@@ -467,21 +556,29 @@
             <h2 class="section-title">Get In Touch</h2>
             <p>Ready to get your iPhone fixed? Contact us for a free diagnostic and estimate!</p>
             
-           <div class="contact-item">
-                    <div class="social-icon"> <a href="https://www.facebook.com/profile.php?id=61559595750138" target="_blank" >  <img src="images/facebook-icon.jpg" alt=""></div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="social-icon">
+                        <a href="https://www.facebook.com/profile.php?id=61559595750138" target="_blank">
+                            <div style="background: #1877f2; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">f</div>
+                        </a>
+                    </div>
                     <h3>Follow Us</h3>
-                    </a>
+                    <p>Stay updated with our latest services</p>
                 </div>
+
                 <div class="contact-item">
                     <div class="contact-icon">📞</div>
                     <h3>Call Us</h3>
                     <p>(267) 76138377<br>Mon-Fri: 10AM-8PM<br>Sat: 10AM-6PM</p>
                 </div>
+
                 <div class="contact-item">
                     <div class="contact-icon">🚚</div>
-                    <h3>CHeap Delivery</h3>
-                    <p>Delivery via Sprint Couriers at customer's Costs<br>Same-day local delivery</p>
+                    <h3>Cheap Delivery</h3>
+                    <p>Delivery via Sprint Couriers at customer's costs<br>Same-day local delivery</p>
                 </div>
+
                 <div class="contact-item">
                     <div class="contact-icon">💬</div>
                     <h3>Customer Support</h3>
@@ -494,11 +591,22 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 Sole Connect. Your trusted iPhone repair experts. All rights reserved.</p>
-             <a href="#home" class="cta-button">Back To Top</a>
+            <br>
+            <a href="#home" class="cta-button">Back To Top</a>
         </div>
     </footer>
 
     <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -534,6 +642,17 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(card);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
         });
     </script>
 </body>
